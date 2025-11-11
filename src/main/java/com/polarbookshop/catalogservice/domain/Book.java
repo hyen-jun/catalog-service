@@ -6,19 +6,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
+import org.springframework.data.relational.core.mapping.Table;
 
+import java.beans.ConstructorProperties;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
 @Getter
 @ToString
+@Table("book")
 public class Book {
 
     @Id
@@ -65,6 +66,8 @@ public class Book {
 
     // REST API/전체 필드용 생성자
     @JsonCreator
+    @PersistenceCreator
+    @ConstructorProperties({"id","version","isbn","title","author","price","createdDate","lastModifiedDate"})
     public Book(@JsonProperty(value = "id", required = false) Long id,
                 @JsonProperty(value = "version", required = false) Integer version,
                 @JsonProperty(value = "isbn", required = true) String isbn,
@@ -107,5 +110,21 @@ public class Book {
                 && Objects.equals(price, other.price);
     }
 
+    public Book withId(Long id) {
+        return new Book(id, this.version, this.isbn, this.title, this.author, this.price, this.createdDate, this.lastModifiedDate);
+    }
+
+    public Book withVersion(int version) {
+        return new Book(this.id, version, this.isbn, this.title, this.author, this.price, this.createdDate, this.lastModifiedDate);
+    }
+
+    // wither 메서드 (Spring Data JDBC의 감사 기능을 위해 필요)
+    public Book withCreatedDate(Instant createdDate) {
+        return new Book(this.id, this.version, this.isbn, this.title, this.author, this.price, createdDate, this.lastModifiedDate);
+    }
+
+    public Book withLastModifiedDate(Instant lastModifiedDate) {
+        return new Book(this.id, this.version, this.isbn, this.title, this.author, this.price, this.createdDate, lastModifiedDate);
+    }
 
 }
