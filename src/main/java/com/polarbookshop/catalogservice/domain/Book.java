@@ -8,10 +8,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -19,6 +17,7 @@ import java.util.Objects;
 
 @Getter
 @ToString
+@Table("book")
 public class Book {
 
     @Id
@@ -65,6 +64,7 @@ public class Book {
 
     // REST API/전체 필드용 생성자
     @JsonCreator
+    @PersistenceCreator
     public Book(@JsonProperty(value = "id", required = false) Long id,
                 @JsonProperty(value = "version", required = false) Integer version,
                 @JsonProperty(value = "isbn", required = true) String isbn,
