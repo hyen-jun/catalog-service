@@ -14,11 +14,10 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @DataJdbcTest
-@Import({DataConfig.class})
+@Import(DataConfig.class)
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("integration")
 public class BookRepositoryJdbcTests {
-
     @Autowired
     private BookRepository  bookRepository;
 
@@ -26,13 +25,15 @@ public class BookRepositoryJdbcTests {
     private JdbcAggregateTemplate jdbcAggregateTemplate;
 
     @Test
-    public void findBookByIsbnWhenExisting() {
-        String bookIsbn = "1234561237";
-        Book book = Book.of(bookIsbn, "Title", "Author", new BigDecimal("12.90"));
+    void findBookByIsbnWhenExisting(){
+        String isbn = "1234561237";
+        Book book = Book.of(isbn, "Title", "Author", new BigDecimal("12.90"));
+
         jdbcAggregateTemplate.insert(book);
-        Optional<Book> bookOptional = bookRepository.findByIsbn(bookIsbn);
+        Optional<Book> bookOptional = bookRepository.findByIsbn(isbn);
 
         Assertions.assertThat(bookOptional).isPresent();
         Assertions.assertThat(bookOptional.get().getIsbn()).isEqualTo(book.getIsbn());
     }
+
 }
