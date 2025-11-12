@@ -3,7 +3,7 @@ on: push
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: jongsoulpark/catalog-service
+  IMAGE_NAME: hyen-jun/catalog-service
   VERSION: latest
 
 jobs:
