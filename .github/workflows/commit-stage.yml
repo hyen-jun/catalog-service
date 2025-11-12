@@ -1,6 +1,6 @@
 name: Commit Stage
 on: push
-qq
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: jongsoulpark/catalog-service
