@@ -1,7 +1,9 @@
 package com.polarbookshop.catalogservice;
 
 import com.polarbookshop.catalogservice.domain.Book;
+import com.polarbookshop.catalogservice.domain.BookRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,10 +21,19 @@ class CatalogServiceApplicationTests {
     @Autowired
     private WebTestClient webTestClient;
 
+    @Autowired
+    private BookRepository bookRepository;
+
+    @BeforeEach
+    void setUp() {
+        bookRepository.deleteAll(); // 기존 데이터 정리
+    }
+
     @Test
     void whenPostRequestThenBookCreated() {
         Book expectedBook =
-                new Book("1231231231", "Title", "Author", new BigDecimal("9.90"));
+                new Book("1231231232", "Title", "Author", new BigDecimal("9.90"), "Publisher");
+
         webTestClient
                 .post()
                 .uri("/books")
@@ -30,6 +41,7 @@ class CatalogServiceApplicationTests {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(Book.class).value(actualBook -> {
+                    System.out.println("응답: " + actualBook);
                     Assertions.assertThat(actualBook).isNotNull();
                     Assertions.assertThat(actualBook.getIsbn()).isEqualTo(expectedBook.getIsbn());
                 });

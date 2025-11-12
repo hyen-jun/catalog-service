@@ -45,6 +45,8 @@ public class Book {
     )
     private final BigDecimal price;
 
+    private final String publisher;
+
     @CreatedDate
     private final Instant createdDate;
 
@@ -52,14 +54,14 @@ public class Book {
     private final Instant lastModifiedDate;
 
     public static Book of(
-            String isbn, String title, String author, BigDecimal price
+            String isbn, String title, String author, BigDecimal price, String publisher
     ) {
-        return new Book(null,0, isbn, title, author, price, null, null);
+        return new Book(null,0, isbn, title, author, price, publisher, null, null);
     }
 
     // 데이터 로더용 생성자 (id, version 자동 생성)
-    public Book(String isbn, String title, String author, BigDecimal price) {
-        this(null, 0, isbn, title, author, price, null, null);
+    public Book(String isbn, String title, String author, BigDecimal price, String publisher) {
+        this(null, 0, isbn, title, author, price, publisher, null, null);
     }
 
     // REST API/전체 필드용 생성자
@@ -71,6 +73,7 @@ public class Book {
                 @JsonProperty(value = "title", required = true) String title,
                 @JsonProperty(value = "author", required = true) String author,
                 @JsonProperty(value = "price", required = true) BigDecimal price,
+                @JsonProperty(value = "publisher", required = true) String publisher,
                 @JsonProperty(value = "createdDate", required = false) Instant createdDate,
                 @JsonProperty(value = "lastModifiedDate", required = false) Instant lastModifiedDate) {
 
@@ -83,6 +86,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.price = price;
+        this.publisher = publisher;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
     }

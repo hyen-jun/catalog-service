@@ -23,7 +23,7 @@ public class BookValidationTests {
     @Test
     void whenAllFieldsCorrectThenValidationSucceeds() {
         Book book =
-                new Book("1234567890", "title", "Author", new BigDecimal("9.90"));
+                new Book("1234567890", "title", "Author", new BigDecimal("9.90"), "Publisher");
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
         Assertions.assertThat(violations).isEmpty();
     }
@@ -31,7 +31,7 @@ public class BookValidationTests {
     @Test
     void whenIsbnDefinedButIncorrectThenValidationFails() {
         Book book =
-                new Book("a234567890", "title", "Author", new BigDecimal("9.90"));
+                new Book("a234567890", "title", "Author", new BigDecimal("9.90"), "Publisher");
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
         Assertions.assertThat(violations).hasSize(1);
         Assertions.assertThat(violations.iterator().next().getMessage())

@@ -39,6 +39,7 @@ public class BookService {
                             book.getTitle(),
                             book.getAuthor(),
                             book.getPrice(),
+                            book.getPublisher(),
                             existingBook.getCreatedDate(),
                             existingBook.getLastModifiedDate()
                     );

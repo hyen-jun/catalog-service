@@ -18,7 +18,7 @@ public class BookJsonTests {
 
     @Test
     void testSerialize() throws Exception {
-        Book book = new Book("1234567890", "Title", "Author", new BigDecimal("9.90"));
+        Book book = new Book("1234567890", "Title", "Author", new BigDecimal("9.90"), "Publisher");
         JsonContent<Book> jsonContent = json.write(book);
         Assertions.assertThat(jsonContent).extractingJsonPathStringValue("$.isbn").isEqualTo(book.getIsbn());
         Assertions.assertThat(jsonContent).extractingJsonPathStringValue("$.title").isEqualTo(book.getTitle());
@@ -33,12 +33,13 @@ public class BookJsonTests {
                 "isbn": "1234567890",
                 "title": "Title",
                 "author": "Author",
-                "price": 9.90      
+                "price": 9.90,
+                "publisher": "Publisher"    
                 }
                 """;
         Assertions.assertThat(json.parse(content))
                 .usingRecursiveComparison()
-                .isEqualTo(new Book("1234567890", "Title", "Author", new BigDecimal("9.90")));
+                .isEqualTo(new Book("1234567890", "Title", "Author", new BigDecimal("9.90"), "Publisher"));
     }
 }
 

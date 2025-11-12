@@ -27,7 +27,7 @@ public class BookRepositoryJdbcTests {
     @Test
     void findBookByIsbnWhenExisting(){
         String isbn = "1234561237";
-        Book book = Book.of(isbn, "Title", "Author", new BigDecimal("12.90"));
+        Book book = Book.of(isbn, "Title", "Author", new BigDecimal("12.90"), "Publisher");
 
         jdbcAggregateTemplate.insert(book);
         Optional<Book> bookOptional = bookRepository.findByIsbn(isbn);
