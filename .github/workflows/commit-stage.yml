@@ -83,6 +83,6 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ env.ACTOR_LOWER }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          password: ${{ secrets.PERSONAL_GHCR_TOKEN }}
       - name: Publish container image
         run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
